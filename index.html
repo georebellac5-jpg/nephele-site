@@ -107,7 +107,8 @@
   @media(min-width:540px){.cards.three{grid-template-columns:repeat(3,1fr);}}
 
   /* IMAGE BAND */
-  .band{width:100%;aspect-ratio:16/10;overflow:hidden;margin-top:36px;border:1px solid var(--border);}
+  .band{width:100%;aspect-ratio:16/10;overflow:hidden;margin-top:36px;border:1px solid var(--border);position:relative;}
+  .band::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.6) 100%);pointer-events:none;}
   .band img{width:100%;height:100%;object-fit:cover;}
 
   /* SPEC LIST */

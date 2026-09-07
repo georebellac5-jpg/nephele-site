@@ -285,15 +285,18 @@
     line-height:1;
     font-variant-numeric:tabular-nums;
   }
-  .hero-stat .num.stat-reveal{
-    opacity:0;transform:scale(.88);
-    transition:opacity 1.1s var(--ease),transform 1.1s var(--ease);
-  }
-  .hero-stat .num.stat-reveal.in{opacity:1;transform:scale(1);}
   .hero-stat .cap{margin-top:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);}
 
   .stat-row.cyan .stat-fill{background:linear-gradient(90deg,#0891b2,#22d3ee);box-shadow:0 0 14px rgba(34,211,238,.45);}
   .stat-row.cyan .stat-label .v{color:#22d3ee;}
+
+  /* Elegant reveal for numbers (stat %, prices) — pop in, no digit ticking */
+  .reveal-pop{
+    display:inline-block;
+    opacity:0;transform:scale(.88);
+    transition:opacity .9s var(--ease),transform .9s var(--ease);
+  }
+  .reveal-pop.in{opacity:1;transform:scale(1);}
 
   .proof-grid{display:grid;gap:14px;margin-top:36px;grid-template-columns:1fr;}
   @media(min-width:600px){.proof-grid{grid-template-columns:1fr 1fr;}}
@@ -317,8 +320,31 @@
   }
   .method-note strong{color:var(--ink);font-weight:600;}
 
-  .jump{margin-top:22px;display:inline-block;font-size:12.5px;letter-spacing:.04em;color:var(--dim);border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .25s var(--ease),border-color .25s var(--ease);}
-  .jump:hover{color:var(--ink-bright);border-color:var(--ink-bright);}
+  /* Detail toggle button — opens the technical section below */
+  .detail-toggle{
+    margin-top:26px;
+    display:inline-flex;align-items:center;gap:12px;
+    background:none;border:1px solid var(--border);
+    padding:13px 22px;
+    font-family:Calibri,"Segoe UI",sans-serif;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-bright);
+    cursor:pointer;-webkit-tap-highlight-color:transparent;
+    transition:border-color .3s var(--ease),background .3s var(--ease);
+  }
+  .detail-toggle:hover{border-color:var(--ink-bright);}
+  .detail-toggle .chevron{
+    flex:0 0 auto;width:8px;height:8px;
+    border-right:1px solid var(--ink-bright);border-bottom:1px solid var(--ink-bright);
+    transform:rotate(45deg);transition:transform .4s var(--ease);
+  }
+  .detail-toggle.open .chevron{transform:rotate(-135deg);}
+
+  /* Technical section — collapsed by default, expands on toggle */
+  #technique{padding:0;border-bottom:none;}
+  #technique.open{border-bottom:1px solid var(--border);}
+  .tech-collapse{max-height:0;overflow:hidden;transition:max-height .6s var(--ease);}
+  .tech-inner{padding:76px 0;}
 
   /* VISION */
   .vision{text-align:center;}
@@ -344,8 +370,10 @@
   @media(prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     .fade{opacity:1!important;transform:none!important;transition:none!important;}
-    .stat-reveal{opacity:1!important;transform:none!important;transition:none!important;}
+    .reveal-pop{opacity:1!important;transform:none!important;transition:none!important;}
     .faq-a{transition:none!important;}
+    .tech-collapse{transition:none!important;}
+    .detail-toggle .chevron{transition:none!important;}
     .card,.price-card,.proof-card,.btn{transition:none!important;}
     .card:hover,.price-card:hover,.proof-card:hover{transform:none!important;}
     .band img,.hero-img-wrap img{transform:none!important;}
@@ -435,7 +463,7 @@
   <p class="lede">Après cinq séances sans entretien, la charge bactérienne d'un casque peut être multipliée par 10 000 à 100 000. Le cycle NEPHELE la ramène sous le seuil d'un équipement neuf.</p>
 
   <div class="hero-stat">
-    <div class="num stat-reveal" id="statReveal">99,99%</div>
+    <div class="num reveal-pop">99,99%</div>
     <div class="cap">Abattement de la charge microbienne mesuré après un cycle</div>
   </div>
 
@@ -485,43 +513,50 @@
   <div class="method-note">
     <strong>Méthode &amp; rigueur.</strong> Ces chiffres reprennent des ordres de grandeur reconnus en microbiologie cutanée et en désinfection UV/ozone, appliqués au cas d'un casque d'équitation. Ils illustrent un phénomène réel et documenté, mais ne remplacent pas un rapport de test indépendant réalisé sur l'appareil lui-même. Une allégation du type « élimine 100% des microbes » ne sera formulée qu'une fois cette validation obtenue en laboratoire.
   </div>
-  <a class="jump" href="#technique">Voir le détail technique du cycle ↓</a>
+  <button class="detail-toggle" id="detailToggleBtn" type="button" aria-expanded="false" aria-controls="technique">
+    <span class="detail-toggle-label">Voir le détail technique</span>
+    <span class="chevron"></span>
+  </button>
 </section>
 
-<section class="fade" id="technique">
-  <div class="eyebrow">Pour aller plus loin</div>
-  <h2>La fiche technique</h2>
-  <div class="spec">
-    <div class="spec-row"><div class="k">Stérilisation</div><div class="v">Ozone (O₃) + UV-C 254 nm</div></div>
-    <div class="spec-row"><div class="k">Brumisation</div><div class="v">Piézoélectrique, gouttelettes &lt; 5 µm</div></div>
-    <div class="spec-row"><div class="k">Séchage</div><div class="v">Résistance PTC, 40 à 45°C</div></div>
-    <div class="spec-row"><div class="k">Formule (réservoir 25 L)</div><div class="v">98,8% eau déminéralisée · 1% désinfectant textile neutre (norme EN 1276) · 0,2% parfum aqueux hydrosoluble</div></div>
-    <div class="spec-row"><div class="k">Paiement</div><div class="v">Terminal sans contact — carte ou mobile</div></div>
-    <div class="spec-row"><div class="k">Durée totale</div><div class="v">4 minutes</div></div>
-  </div>
+<section id="technique">
+  <div class="tech-collapse" id="techCollapse">
+    <div class="tech-inner">
+      <div class="eyebrow">Pour aller plus loin</div>
+      <h2>La fiche technique</h2>
+      <div class="spec">
+        <div class="spec-row"><div class="k">Stérilisation</div><div class="v">Ozone (O₃) + UV-C 254 nm</div></div>
+        <div class="spec-row"><div class="k">Brumisation</div><div class="v">Piézoélectrique, gouttelettes &lt; 5 µm</div></div>
+        <div class="spec-row"><div class="k">Séchage</div><div class="v">Résistance PTC, 40 à 45°C</div></div>
+        <div class="spec-row"><div class="k">Formule (réservoir 25 L)</div><div class="v">98,8% eau déminéralisée · 1% désinfectant textile neutre (norme EN 1276) · 0,2% parfum aqueux hydrosoluble</div></div>
+        <div class="spec-row"><div class="k">Paiement</div><div class="v">Terminal sans contact — carte ou mobile</div></div>
+        <div class="spec-row"><div class="k">Durée totale</div><div class="v">4 minutes</div></div>
+      </div>
 
-  <div class="subhead">Comment ça agit, phase par phase</div>
-  <div class="timeline" id="phaseTimeline">
-    <div class="timeline-track"><div class="timeline-track-fill" id="timelineFill"></div></div>
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="num">01 — Stérilisation · 0 à 60 s</div>
-      <p>Les UV-C (254 nm) fragmentent l'ADN bactérien par dimérisation de la thymine, bloquant toute division cellulaire. L'ozone (O₃, fort pouvoir oxydant) s'infiltre dans les zones d'ombre et oxyde membranes et molécules odorantes — sans aucun liquide.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="num">02 — Brumisation · 60 à 120 s</div>
-      <p>Une céramique piézoélectrique oscillant à plus de 1,7 MHz génère un brouillard de gouttelettes inférieures à 5 µm, qui pénètre la mousse par capillarité et dissout les cristaux de sel sans jamais la saturer d'eau libre.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="num">03 — Séchage · 120 à 270 s</div>
-      <p>Une résistance PTC souffle un air ventilé à 40–45°C. La coque en polystyrène expansé ne se dégrade qu'au-delà de 60–65°C : une marge de sécurité large et volontaire pour les polymères de protection.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="num">04 — Fixation olfactive · 270 à 300 s</div>
-      <p>Une brève impulsion du même brumisateur dépose un voile aromatique sur le textile propre, pendant que l'extraction purge l'ozone résiduel et l'air humide.</p>
+      <div class="subhead">Comment ça agit, phase par phase</div>
+      <div class="timeline" id="phaseTimeline">
+        <div class="timeline-track"><div class="timeline-track-fill" id="timelineFill"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="num">01 — Stérilisation · 0 à 60 s</div>
+          <p>Les UV-C (254 nm) fragmentent l'ADN bactérien par dimérisation de la thymine, bloquant toute division cellulaire. L'ozone (O₃, fort pouvoir oxydant) s'infiltre dans les zones d'ombre et oxyde membranes et molécules odorantes — sans aucun liquide.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="num">02 — Brumisation · 60 à 120 s</div>
+          <p>Une céramique piézoélectrique oscillant à plus de 1,7 MHz génère un brouillard de gouttelettes inférieures à 5 µm, qui pénètre la mousse par capillarité et dissout les cristaux de sel sans jamais la saturer d'eau libre.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="num">03 — Séchage · 120 à 270 s</div>
+          <p>Une résistance PTC souffle un air ventilé à 40–45°C. La coque en polystyrène expansé ne se dégrade qu'au-delà de 60–65°C : une marge de sécurité large et volontaire pour les polymères de protection.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="num">04 — Fixation olfactive · 270 à 300 s</div>
+          <p>Une brève impulsion du même brumisateur dépose un voile aromatique sur le textile propre, pendant que l'extraction purge l'ozone résiduel et l'air humide.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -559,12 +594,12 @@
   <h2>Un cycle, un prix clair</h2>
   <div class="price-grid">
     <div class="price-card">
-      <div class="amount"><span data-count-to="4.90" data-decimals="2">0,00</span><sup>€</sup></div>
+      <div class="amount reveal-pop">4,90<sup>€</sup></div>
       <div class="label">En écurie</div>
       <div class="desc">Formule standard, station disponible en continu.</div>
     </div>
     <div class="price-card">
-      <div class="amount"><span data-count-to="6.90" data-decimals="2">0,00</span><sup>€</sup></div>
+      <div class="amount reveal-pop">6,90<sup>€</sup></div>
       <div class="label">Concours &amp; événements</div>
       <div class="desc">Station mobile déployée le temps de l'épreuve.</div>
     </div>
@@ -670,20 +705,20 @@
     updateParallax();
   }
 
-  // Simple, clean reveal for the headline 99,99% stat (no digit ticking)
-  var statReveal = document.getElementById('statReveal');
-  if(statReveal){
+  // Elegant reveal for numbers (headline %, prices) — pop in, no digit ticking
+  var revealPops = document.querySelectorAll('.reveal-pop');
+  if(revealPops.length){
     if(reduceMotion){
-      statReveal.classList.add('in');
+      revealPops.forEach(function(el){ el.classList.add('in'); });
     } else if('IntersectionObserver' in window){
-      var sio = new IntersectionObserver(function(entries){
+      var rio = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
-          if(e.isIntersecting){ e.target.classList.add('in'); sio.unobserve(e.target); }
+          if(e.isIntersecting){ e.target.classList.add('in'); rio.unobserve(e.target); }
         });
-      },{threshold:0.6});
-      sio.observe(statReveal);
+      },{threshold:0.5});
+      revealPops.forEach(function(el){ rio.observe(el); });
     } else {
-      statReveal.classList.add('in');
+      revealPops.forEach(function(el){ el.classList.add('in'); });
     }
   }
 
@@ -718,66 +753,62 @@
     });
   });
 
-  // Count-up numbers (prices, headline stats)
-  var counters = document.querySelectorAll('[data-count-to]');
-  function formatCount(v, decimals){
-    return v.toLocaleString('fr-FR', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
-  }
-  function runCounter(el){
-    var target = parseFloat(el.getAttribute('data-count-to'));
-    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
-    var suffix = el.getAttribute('data-suffix') || '';
-    if(reduceMotion){ el.textContent = formatCount(target, decimals) + suffix; return; }
-    var duration = 1400;
-    var start = null;
-    function step(ts){
-      if(!start) start = ts;
-      var p = Math.min(1, (ts - start) / duration);
-      var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = formatCount(target * eased, decimals) + suffix;
-      if(p < 1){ requestAnimationFrame(step); }
+  // Technical timeline — sequential reveal + track fill, triggered when the detail section opens
+  var timeline = document.getElementById('phaseTimeline');
+  var timelinePlayed = false;
+  function playTimeline(){
+    if(!timeline || timelinePlayed) return;
+    timelinePlayed = true;
+    var items = timeline.querySelectorAll('.timeline-item');
+    var fill = document.getElementById('timelineFill');
+    if(reduceMotion){
+      items.forEach(function(it){ it.classList.add('on'); });
+      if(fill){ fill.style.height = '100%'; }
+      return;
     }
-    requestAnimationFrame(step);
-  }
-  if(counters.length && 'IntersectionObserver' in window){
-    var cio = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){ runCounter(e.target); cio.unobserve(e.target); }
-      });
-    },{threshold:0.6});
-    counters.forEach(function(c){ cio.observe(c); });
-  } else {
-    counters.forEach(function(c){
-      var t = parseFloat(c.getAttribute('data-count-to'));
-      var d = parseInt(c.getAttribute('data-decimals')||'0',10);
-      c.textContent = formatCount(t, d) + (c.getAttribute('data-suffix')||'');
+    items.forEach(function(it, idx){
+      setTimeout(function(){
+        it.classList.add('on');
+        var pct = ((idx + 1) / items.length) * 100;
+        if(fill){ fill.style.height = pct + '%'; }
+      }, idx * 180);
     });
   }
 
-  // Technical timeline — sequential reveal + track fill
-  var timeline = document.getElementById('phaseTimeline');
-  if(timeline){
-    var items = timeline.querySelectorAll('.timeline-item');
-    var fill = document.getElementById('timelineFill');
-    if('IntersectionObserver' in window){
-      var tio = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if(e.isIntersecting){
-            var idx = Array.prototype.indexOf.call(items, e.target);
-            setTimeout(function(){
-              e.target.classList.add('on');
-              var pct = ((idx + 1) / items.length) * 100;
-              if(fill){ fill.style.height = pct + '%'; }
-            }, idx * 180);
-            tio.unobserve(e.target);
-          }
+  // Detail toggle — technical section stays collapsed until requested
+  var detailBtn = document.getElementById('detailToggleBtn');
+  var techSection = document.getElementById('technique');
+  var techCollapse = document.getElementById('techCollapse');
+  if(detailBtn && techSection && techCollapse){
+    detailBtn.addEventListener('click', function(){
+      var isOpen = techSection.classList.contains('open');
+      if(isOpen){
+        techCollapse.style.maxHeight = techCollapse.scrollHeight + 'px';
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ techCollapse.style.maxHeight = '0px'; });
         });
-      },{threshold:0.5});
-      items.forEach(function(it){ tio.observe(it); });
-    } else {
-      items.forEach(function(it){ it.classList.add('on'); });
-      if(fill){ fill.style.height = '100%'; }
-    }
+        techSection.classList.remove('open');
+        detailBtn.classList.remove('open');
+        detailBtn.setAttribute('aria-expanded','false');
+        detailBtn.querySelector('.detail-toggle-label').textContent = 'Voir le détail technique';
+      } else {
+        techSection.classList.add('open');
+        detailBtn.classList.add('open');
+        detailBtn.setAttribute('aria-expanded','true');
+        detailBtn.querySelector('.detail-toggle-label').textContent = 'Masquer le détail technique';
+        techCollapse.style.maxHeight = techCollapse.scrollHeight + 'px';
+        playTimeline();
+        setTimeout(function(){
+          techSection.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'start'});
+        }, reduceMotion ? 0 : 300);
+      }
+    });
+    techCollapse.addEventListener('transitionend', function(){
+      if(techSection.classList.contains('open')){ techCollapse.style.maxHeight = 'none'; }
+    });
+    window.addEventListener('resize', function(){
+      if(techSection.classList.contains('open')){ techCollapse.style.maxHeight = 'none'; }
+    });
   }
 
   // Premium pointer tilt (desktop, fine pointer only)

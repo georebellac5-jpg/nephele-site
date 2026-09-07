@@ -69,13 +69,18 @@
     padding:0;
     border-bottom:1px solid var(--border);
     position:relative;
+    overflow:hidden;
   }
   .hero-img-wrap{
     width:100%;
     aspect-ratio:4/5;
     overflow:hidden;
     background:#0a0a0a;
+    opacity:0;
+    transform:scale(1.04);
+    transition:opacity 1.3s var(--ease),transform 1.8s var(--ease);
   }
+  .hero-img-wrap.in{opacity:1;transform:scale(1);}
   .hero-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:grayscale(15%) contrast(1.05);}
   .hero-content{
     padding:40px 24px 56px;
@@ -224,33 +229,43 @@
   .faq-a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease);}
   .faq-a-inner{padding:0 0 22px;font-size:14px;color:var(--ink);line-height:1.75;max-width:52ch;}
 
-  /* PRICING */
-  .price-grid{display:grid;gap:14px;margin-top:32px;}
+  /* PRICING — compact & discreet */
+  #tarifs{padding:44px 0;}
+  #tarifs .eyebrow{margin-bottom:10px;}
+  #tarifs h2{font-size:clamp(18px,3.6vw,22px);}
+  .price-grid{display:grid;gap:10px;margin-top:18px;}
   @media(min-width:540px){.price-grid{grid-template-columns:1fr 1fr;}}
   .price-card{
     border:1px solid var(--border);
     background:var(--panel);
-    padding:28px 24px;
+    padding:16px 14px;
     text-align:center;
     transition:transform .35s var(--ease),border-color .35s var(--ease);
   }
-  .price-card:hover{transform:translateY(-3px);border-color:#3d3d3d;}
+  .price-card:hover{transform:translateY(-2px);border-color:#3d3d3d;}
   .price-card .amount{
     font-family:Cambria,Georgia,serif;
-    font-size:40px;
+    font-size:24px;
     color:var(--ink-bright);
   }
-  .price-card .amount sup{font-size:16px;}
-  .price-card .label{margin-top:8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);}
-  .price-card .desc{margin-top:12px;font-size:13.5px;color:var(--ink);}
+  .price-card .amount sup{font-size:11px;}
+  .price-card .label{margin-top:5px;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);}
+  .price-card .desc{margin-top:6px;font-size:11.5px;color:var(--dim);line-height:1.5;}
   .price-note{
-    margin-top:24px;
+    margin-top:16px;
     border:1px solid var(--border);
-    padding:20px;
-    font-size:14px;
-    color:var(--ink);
-    text-align:center;
+    padding:14px 16px;
+    font-size:12.5px;
+    color:var(--dim);
   }
+  .price-defense{
+    margin-top:20px;
+    font-size:13px;
+    color:var(--ink);
+    line-height:1.75;
+    max-width:52ch;
+  }
+  .price-defense strong{color:var(--ink-bright);font-weight:600;}
 
   /* CTA buttons */
   .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;justify-content:center;}
@@ -281,7 +296,8 @@
   .hero-stat .num{
     font-family:Cambria,Georgia,serif;
     font-size:clamp(48px,13vw,84px);
-    color:var(--ink-bright);
+    color:#22d3ee;
+    text-shadow:0 0 28px rgba(34,211,238,.35);
     line-height:1;
     font-variant-numeric:tabular-nums;
   }
@@ -353,6 +369,74 @@
 
   /* CONTACT */
   .contact-wrap{text-align:center;}
+  .contact-priority{
+    margin-top:22px;
+    font-size:12.5px;
+    color:var(--dim);
+    max-width:44ch;
+    margin-left:auto;margin-right:auto;
+  }
+  .contact-priority strong{color:var(--ink-bright);font-weight:600;}
+
+  /* CONTACT MODAL */
+  .contact-overlay{
+    position:fixed;inset:0;z-index:1000;
+    background:rgba(0,0,0,.72);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+    opacity:0;transition:opacity .3s var(--ease);
+  }
+  .contact-overlay.open{opacity:1;}
+  .contact-overlay[hidden]{display:none;}
+  .contact-modal{
+    position:relative;
+    width:100%;max-width:360px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:32px 26px 28px;
+    text-align:center;
+    transform:scale(.94);transition:transform .3s var(--ease);
+  }
+  .contact-overlay.open .contact-modal{transform:scale(1);}
+  .contact-modal-close{
+    position:absolute;top:10px;right:10px;
+    width:32px;height:32px;
+    background:none;border:none;color:var(--dim);
+    font-size:20px;line-height:1;cursor:pointer;
+    transition:color .25s var(--ease);
+  }
+  .contact-modal-close:hover{color:var(--ink-bright);}
+  .contact-modal-row{
+    margin-top:14px;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .contact-modal-value{
+    font-family:Cambria,Georgia,serif;
+    font-size:18px;
+    color:var(--ink-bright);
+    word-break:break-word;
+  }
+  .contact-modal-copy{
+    flex:0 0 auto;
+    width:32px;height:32px;
+    display:flex;align-items:center;justify-content:center;
+    background:none;border:1px solid var(--border);
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .25s var(--ease),color .25s var(--ease);
+  }
+  .contact-modal-copy:hover{border-color:var(--ink-bright);color:var(--ink-bright);}
+  .contact-modal-copied{
+    display:block;
+    margin-top:8px;
+    font-size:11.5px;
+    letter-spacing:.05em;
+    color:#22d3ee;
+    height:14px;
+    opacity:0;transition:opacity .25s var(--ease);
+  }
+  .contact-modal-copied.show{opacity:1;}
+  .contact-modal-action{margin-top:22px;width:100%;}
 
   footer{
     padding:40px 24px 60px;
@@ -371,6 +455,8 @@
     html{scroll-behavior:auto;}
     .fade{opacity:1!important;transform:none!important;transition:none!important;}
     .reveal-pop{opacity:1!important;transform:none!important;transition:none!important;}
+    .hero-img-wrap{opacity:1!important;transform:none!important;transition:none!important;}
+    .contact-overlay,.contact-modal{transition:none!important;}
     .faq-a{transition:none!important;}
     .tech-collapse{transition:none!important;}
     .detail-toggle .chevron{transition:none!important;}
@@ -594,12 +680,12 @@
   <h2>Un cycle, un prix clair</h2>
   <div class="price-grid">
     <div class="price-card">
-      <div class="amount reveal-pop">4,90<sup>€</sup></div>
+      <div class="amount reveal-pop">6<sup>€</sup></div>
       <div class="label">En écurie</div>
       <div class="desc">Formule standard, station disponible en continu.</div>
     </div>
     <div class="price-card">
-      <div class="amount reveal-pop">6,90<sup>€</sup></div>
+      <div class="amount reveal-pop">9<sup>€</sup></div>
       <div class="label">Concours &amp; événements</div>
       <div class="desc">Station mobile déployée le temps de l'épreuve.</div>
     </div>
@@ -607,6 +693,7 @@
   <div class="price-note">
     Vous gérez une écurie, un club ou organisez un concours ? Contactez-nous pour étudier une installation.
   </div>
+  <p class="price-defense">Le prix d'un café — pour un équipement qui protège votre tête à chaque chute. Un casque neuf coûte entre 150 et 400€ : le laisser se dégrader faute d'entretien, c'est payer plein tarif un équipement qui vous protège de moins en moins. À 6€, le cycle NEPHELE en préserve les mousses et la durée de vie, et vous évite de reposer un casque humide et malodorant sur votre tête à la séance suivante. <strong>Ce n'est pas une dépense — c'est l'entretien de ce qui vous protège.</strong></p>
 </section>
 
 <section class="fade" id="mythe">
@@ -628,11 +715,27 @@
   <div class="eyebrow">Contact</div>
   <h2>Une question, un projet d'installation ?</h2>
   <div class="cta-row">
-    <a class="btn solid" href="mailto:georebellac5@gmail.com?subject=Installation%20NEPHELE">Écrire</a>
-    <a class="btn" href="tel:+33643815200">Appeler</a>
+    <button class="btn solid" type="button" data-contact="email">Écrire</button>
+    <button class="btn" type="button" data-contact="phone">Appeler</button>
   </div>
+  <p class="contact-priority">Un souci avec la machine sur place ? Contactez-nous <strong>en priorité par mail</strong> — c'est le canal le plus rapide pour un suivi efficace.</p>
 </section>
 
+</div>
+
+<div class="contact-overlay" id="contactOverlay" hidden>
+  <div class="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contactModalValue">
+    <button class="contact-modal-close" id="contactModalClose" type="button" aria-label="Fermer">&times;</button>
+    <div class="eyebrow" id="contactModalEyebrow">Nous écrire</div>
+    <div class="contact-modal-row">
+      <span class="contact-modal-value" id="contactModalValue">georebellac5@gmail.com</span>
+      <button class="contact-modal-copy" id="contactModalCopy" type="button" aria-label="Copier">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="12" height="12" rx="1.5"></rect><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4H5.5A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"></path></svg>
+      </button>
+    </div>
+    <span class="contact-modal-copied" id="contactModalCopied">Copié ✓</span>
+    <a class="btn solid contact-modal-action" id="contactModalAction" href="mailto:georebellac5@gmail.com?subject=Installation%20NEPHELE">Ouvrir la messagerie</a>
+  </div>
 </div>
 
 <footer>
@@ -643,6 +746,16 @@
 <script>
 (function(){
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Hero image — gentle entrance on load
+  var heroImgWrap = document.querySelector('.hero-img-wrap');
+  if(heroImgWrap){
+    if(reduceMotion){
+      heroImgWrap.classList.add('in');
+    } else {
+      setTimeout(function(){ heroImgWrap.classList.add('in'); }, 120);
+    }
+  }
 
   // Fade-in on scroll
   var els = document.querySelectorAll('.fade');
@@ -809,6 +922,90 @@
     window.addEventListener('resize', function(){
       if(techSection.classList.contains('open')){ techCollapse.style.maxHeight = 'none'; }
     });
+  }
+
+  // Contact modal — Écrire / Appeler open a copyable card instead of navigating directly
+  var CONTACT = {
+    email: {
+      value: 'georebellac5@gmail.com',
+      eyebrow: 'Nous écrire',
+      href: 'mailto:georebellac5@gmail.com?subject=Installation%20NEPHELE',
+      action: 'Ouvrir la messagerie'
+    },
+    phone: {
+      value: '06 43 81 52 00',
+      eyebrow: 'Nous appeler',
+      href: 'tel:+33643815200',
+      action: 'Lancer l\'appel'
+    }
+  };
+  var contactOverlay = document.getElementById('contactOverlay');
+  var contactModal = contactOverlay ? contactOverlay.querySelector('.contact-modal') : null;
+  var contactEyebrow = document.getElementById('contactModalEyebrow');
+  var contactValueEl = document.getElementById('contactModalValue');
+  var contactCopyBtn = document.getElementById('contactModalCopy');
+  var contactCopiedLabel = document.getElementById('contactModalCopied');
+  var contactActionLink = document.getElementById('contactModalAction');
+  var contactCloseBtn = document.getElementById('contactModalClose');
+  var lastFocused = null;
+
+  function openContactModal(kind){
+    var data = CONTACT[kind];
+    if(!data || !contactOverlay) return;
+    contactEyebrow.textContent = data.eyebrow;
+    contactValueEl.textContent = data.value;
+    contactActionLink.href = data.href;
+    contactActionLink.textContent = data.action;
+    contactActionLink.dataset.rawValue = data.value.replace(/\s+/g, '');
+    contactCopiedLabel.classList.remove('show');
+    lastFocused = document.activeElement;
+    contactOverlay.hidden = false;
+    requestAnimationFrame(function(){ contactOverlay.classList.add('open'); });
+    setTimeout(function(){ contactCloseBtn.focus(); }, reduceMotion ? 0 : 300);
+  }
+  function closeContactModal(){
+    if(!contactOverlay) return;
+    contactOverlay.classList.remove('open');
+    setTimeout(function(){ contactOverlay.hidden = true; }, reduceMotion ? 0 : 300);
+    if(lastFocused && lastFocused.focus){ lastFocused.focus(); }
+  }
+  document.querySelectorAll('[data-contact]').forEach(function(btn){
+    btn.addEventListener('click', function(){ openContactModal(btn.getAttribute('data-contact')); });
+  });
+  if(contactCloseBtn){ contactCloseBtn.addEventListener('click', closeContactModal); }
+  if(contactOverlay){
+    contactOverlay.addEventListener('click', function(ev){
+      if(ev.target === contactOverlay){ closeContactModal(); }
+    });
+  }
+  document.addEventListener('keydown', function(ev){
+    if(ev.key === 'Escape' && contactOverlay && !contactOverlay.hidden){ closeContactModal(); }
+  });
+  if(contactCopyBtn){
+    contactCopyBtn.addEventListener('click', function(){
+      var text = contactValueEl.textContent;
+      function showCopied(){
+        contactCopiedLabel.classList.add('show');
+        setTimeout(function(){ contactCopiedLabel.classList.remove('show'); }, 1600);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(showCopied, function(){
+          fallbackCopy(text); showCopied();
+        });
+      } else {
+        fallbackCopy(text); showCopied();
+      }
+    });
+  }
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
   }
 
   // Premium pointer tilt (desktop, fine pointer only)

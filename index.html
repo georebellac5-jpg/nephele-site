@@ -134,6 +134,29 @@
   .cards.three{grid-template-columns:1fr;}
   @media(min-width:540px){.cards.three{grid-template-columns:repeat(3,1fr);}}
 
+  /* PAIN CARDS — constat, simple & flagrant */
+  .pain-card{
+    position:relative;
+    display:flex;flex-direction:column;
+    clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%);
+  }
+  .pain-card .pain-label{
+    font-family:Calibri,"Segoe UI",sans-serif;
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    font-weight:700;color:var(--dim);
+    min-height:28px;
+    display:flex;align-items:flex-end;
+    padding-bottom:12px;margin-bottom:14px;
+    border-bottom:1px solid var(--border);
+  }
+  .pain-card .pain-word{
+    font-family:Cambria,Georgia,serif;
+    font-size:clamp(26px,4.6vw,32px);
+    color:var(--ink-bright);
+    line-height:1;
+  }
+  .pain-card p{margin-top:12px;}
+
   /* stagger for grid children */
   .cards .card:nth-child(1){transition-delay:0s;}
   .cards .card:nth-child(2){transition-delay:.08s;}
@@ -188,6 +211,7 @@
 
   .subhead{margin-top:52px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);}
   .subhead + .timeline{margin-top:20px;}
+  .lede + .timeline{margin-top:36px;}
 
   /* TECHNICAL TIMELINE */
   .timeline{position:relative;display:flex;flex-direction:column;gap:0;}
@@ -213,6 +237,13 @@
     font-size:13px;color:var(--dim);letter-spacing:.05em;
   }
   .timeline-item p{margin:8px 0 0;font-size:14px;color:var(--ink);}
+
+  /* Primary timeline (rituel) — same connected-dot animation, more prominent */
+  .timeline.primary .timeline-item{padding-bottom:34px;}
+  .timeline.primary .timeline-dot{width:13px;height:13px;top:4px;}
+  .timeline.primary .timeline-track{left:6px;}
+  .timeline.primary .timeline-item .num{font-size:16px;color:var(--ink-bright);letter-spacing:.02em;font-weight:600;}
+  .timeline.primary .timeline-item p{font-size:14.5px;max-width:56ch;}
 
   /* FAQ — accordion */
   .faq{margin-top:32px;display:flex;flex-direction:column;}
@@ -501,22 +532,22 @@
 <section class="fade" id="constat">
   <div class="eyebrow">Le constat</div>
   <h2>Vous consacrez 40 minutes à choyer votre cheval. Votre casque, lui, retourne simplement dans un casier fermé.</h2>
-  <p class="lede">Transpiration, chaleur, obscurité : les conditions idéales pour que les mousses techniques se dégradent et que les micro-organismes prolifèrent. Selon les ordres de grandeur observés en microbiologie cutanée, la charge bactérienne d'un casque peut être multipliée par plusieurs milliers après quelques séances sans entretien — la donnée précise est détaillée plus bas.</p>
+  <p class="lede">Trois failles silencieuses, que NEPHELE referme à chaque cycle de 4 minutes :</p>
   <div class="cards three">
-    <div class="card">
-      <div class="num">01</div>
-      <h3>Transpiration</h3>
-      <p>150 à 250 mL absorbés par le casque à chaque séance d'une heure.</p>
+    <div class="card pain-card">
+      <div class="pain-label">Hygiène</div>
+      <div class="pain-word">Contaminé</div>
+      <p>Sueur, chaleur, obscurité : la charge bactérienne d'un casque explose en quelques séances sans entretien.</p>
     </div>
-    <div class="card">
-      <div class="num">02</div>
-      <h3>Cristaux de sel</h3>
-      <p>Usure abrasive prématurée des mousses en polyuréthane.</p>
+    <div class="card pain-card">
+      <div class="pain-label">Protection matériel</div>
+      <div class="pain-word">Fragilisé</div>
+      <p>Les cristaux de sel rongent les mousses techniques et accélèrent l'usure de l'équipement censé vous protéger.</p>
     </div>
-    <div class="card">
-      <div class="num">03</div>
-      <h3>Casier fermé</h3>
-      <p>Obscurité, chaleur, humidité : conditions idéales de prolifération.</p>
+    <div class="card pain-card">
+      <div class="pain-label">Confort</div>
+      <div class="pain-word">Redouté</div>
+      <p>Casque humide, odeur tenace : un geste qui devrait être naturel devient une gêne à chaque séance.</p>
     </div>
   </div>
 </section>
@@ -525,25 +556,26 @@
   <div class="eyebrow">Le rituel — 4 minutes</div>
   <h2>Un protocole en quatre temps, pensé pour préserver — pas seulement désinfecter</h2>
   <p class="lede">De la décontamination de l'air à la fixation du parfum, chaque phase a un rôle précis :</p>
-  <div class="cards">
-    <div class="card">
+  <div class="timeline primary" id="phaseTimeline">
+    <div class="timeline-track"><div class="timeline-track-fill" id="timelineFill"></div></div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
       <div class="num">01 — Stérilisation UV-C &amp; Ozone</div>
-      <h3>Une décontamination sans liquide</h3>
       <p>En amont, les UV-C et l'ozone assainissent l'air et toutes les surfaces internes, neutralisant micro-organismes et odeurs avant même le premier contact avec la mousse.</p>
     </div>
-    <div class="card">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
       <div class="num">02 — Brumisation ultrasonique</div>
-      <h3>Un voile de micro-gouttelettes</h3>
       <p>Moins de 5 microns : la brume pénètre la fibre des mousses, dissout les cristaux de sel et neutralise les résidus de transpiration — sans jamais tremper le casque.</p>
     </div>
-    <div class="card">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
       <div class="num">03 — Séchage thermorégulé</div>
-      <h3>Un air chaud et doux</h3>
       <p>Entre 40 et 45°C, l'humidité s'évapore sans altérer la coque de protection en polystyrène expansé.</p>
     </div>
-    <div class="card">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
       <div class="num">04 — Voile olfactif</div>
-      <h3>Une fragrance discrète</h3>
       <p>Le rituel se referme sur une note fraîche. Le casque ressort sec, assaini, prêt à reprendre sa place.</p>
     </div>
   </div>
@@ -626,31 +658,6 @@
         <div class="spec-row"><div class="k">Formule (réservoir 25 L)</div><div class="v">98,8% eau déminéralisée · 1% désinfectant textile neutre (norme EN 1276) · 0,2% parfum aqueux hydrosoluble</div></div>
         <div class="spec-row"><div class="k">Paiement</div><div class="v">Terminal sans contact — carte ou mobile</div></div>
         <div class="spec-row"><div class="k">Durée totale</div><div class="v">4 minutes</div></div>
-      </div>
-
-      <div class="subhead">Comment ça agit, phase par phase</div>
-      <div class="timeline" id="phaseTimeline">
-        <div class="timeline-track"><div class="timeline-track-fill" id="timelineFill"></div></div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="num">01 — Stérilisation · 0 à 60 s</div>
-          <p>Les UV-C (254 nm) fragmentent l'ADN bactérien par dimérisation de la thymine, bloquant toute division cellulaire. L'ozone (O₃, fort pouvoir oxydant) s'infiltre dans les zones d'ombre et oxyde membranes et molécules odorantes — sans aucun liquide.</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="num">02 — Brumisation · 60 à 120 s</div>
-          <p>Une céramique piézoélectrique oscillant à plus de 1,7 MHz génère un brouillard de gouttelettes inférieures à 5 µm, qui pénètre la mousse par capillarité et dissout les cristaux de sel sans jamais la saturer d'eau libre.</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="num">03 — Séchage · 120 à 270 s</div>
-          <p>Une résistance PTC souffle un air ventilé à 40–45°C. La coque en polystyrène expansé ne se dégrade qu'au-delà de 60–65°C : une marge de sécurité large et volontaire pour les polymères de protection.</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="num">04 — Fixation olfactive · 270 à 300 s</div>
-          <p>Une brève impulsion du même brumisateur dépose un voile aromatique sur le textile propre, pendant que l'extraction purge l'ozone résiduel et l'air humide.</p>
-        </div>
       </div>
     </div>
   </div>
@@ -875,7 +882,7 @@
     });
   });
 
-  // Technical timeline — sequential reveal + track fill, triggered when the detail section opens
+  // Ritual timeline — sequential reveal + track fill, triggered on scroll into view
   var timeline = document.getElementById('phaseTimeline');
   var timelinePlayed = false;
   function playTimeline(){
@@ -895,6 +902,18 @@
         if(fill){ fill.style.height = pct + '%'; }
       }, idx * 180);
     });
+  }
+  if(timeline){
+    if('IntersectionObserver' in window){
+      var tio = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ playTimeline(); tio.unobserve(e.target); }
+        });
+      },{threshold:0.35});
+      tio.observe(timeline);
+    } else {
+      playTimeline();
+    }
   }
 
   // Detail toggle — technical section stays collapsed until requested
@@ -919,7 +938,6 @@
         detailBtn.setAttribute('aria-expanded','true');
         detailBtn.querySelector('.detail-toggle-label').textContent = 'Masquer le détail technique';
         techCollapse.style.maxHeight = techCollapse.scrollHeight + 'px';
-        playTimeline();
         setTimeout(function(){
           techSection.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'start'});
         }, reduceMotion ? 0 : 300);
